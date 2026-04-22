@@ -9,7 +9,7 @@ Dự án ứng dụng Trí tuệ Nhân tạo (AI) để giải quyết bài toá
 
 🌍 **Link Demo Trực Tuyến:** 
 [Bấm vào đây để xem dự án trên Streamlit](https://map-coloring-ery7uo22beomelatmh62um.streamlit.app/)
-## 🚀 Các tính năng cốt lõi (Core Features)
+## 🚀 Các tính năng cốt lõi
 1. **Làm sạch Dữ liệu Không gian (GIS Data Processing):**
    - Tự động phát hiện và sửa các lỗi ranh giới bản đồ (overlap/gap) từ file GeoJSON thô bằng thuật toán `buffer` và `intersects` của thư viện GeoPandas.
    - Trích xuất thành công ma trận kề (Adjacency Graph) chuẩn xác cho 63 tỉnh thành.
