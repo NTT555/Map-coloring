@@ -1,0 +1,179 @@
+{
+    "An Giang": [
+        "Cà Mau",
+        "Cần Thơ",
+        "Lạng Sơn"
+    ],
+    "Bắc Ninh": [
+        "Hà Nội",
+        "Hải Phòng",
+        "Hưng Yên",
+        "Lạng Sơn",
+        "Quảng Ninh",
+        "Thái Nguyên"
+    ],
+    "Cà Mau": [
+        "An Giang",
+        "Cần Thơ"
+    ],
+    "Cần Thơ": [
+        "An Giang",
+        "Cà Mau",
+        "Lạng Sơn",
+        "Vĩnh Long"
+    ],
+    "Cao Bằng": [
+        "Lạng Sơn",
+        "Thái Nguyên",
+        "Tuyên Quang"
+    ],
+    "Đà Nẵng": [
+        "Huế",
+        "Quảng Ngãi"
+    ],
+    "Đắk Lắk": [
+        "Gia Lai",
+        "Khánh Hòa",
+        "Lâm Đồng"
+    ],
+    "Điện Biên": [
+        "Lai Châu",
+        "Sơn La"
+    ],
+    "Đồng Nai": [
+        "Lâm Đồng",
+        "Tây Ninh",
+        "TP. Hồ Chí Minh"
+    ],
+    "Lạng Sơn": [
+        "Bắc Ninh",
+        "Cao Bằng",
+        "Quảng Ninh",
+        "Thái Nguyên"
+    ],
+    "Gia Lai": [
+        "Đắk Lắk",
+        "Quảng Ngãi"
+    ],
+    "Hà Nội": [
+        "Bắc Ninh",
+        "Hưng Yên",
+        "Ninh Bình",
+        "Phú Thọ",
+        "Thái Nguyên"
+    ],
+    "Hà Tĩnh": [
+        "Nghệ An",
+        "Quảng Trị"
+    ],
+    "Hải Phòng": [
+        "Bắc Ninh",
+        "Hưng Yên",
+        "Quảng Ninh"
+    ],
+    "Huế": [
+        "Đà Nẵng",
+        "Quảng Trị"
+    ],
+    "Hưng Yên": [
+        "Bắc Ninh",
+        "Hà Nội",
+        "Hải Phòng",
+        "Ninh Bình"
+    ],
+    "Khánh Hòa": [
+        "Đắk Lắk",
+        "Lâm Đồng"
+    ],
+    "Lai Châu": [
+        "Điện Biên",
+        "Lào Cai",
+        "Sơn La"
+    ],
+    "Lâm Đồng": [
+        "Đắk Lắk",
+        "Đồng Nai",
+        "Khánh Hòa",
+        "TP. Hồ Chí Minh"
+    ],
+    "Lào Cai": [
+        "Lai Châu",
+        "Phú Thọ",
+        "Sơn La",
+        "Tuyên Quang"
+    ],
+    "Nghệ An": [
+        "Hà Tĩnh",
+        "Thanh Hóa"
+    ],
+    "Ninh Bình": [
+        "Hà Nội",
+        "Hưng Yên",
+        "Phú Thọ",
+        "Thanh Hóa"
+    ],
+    "Phú Thọ": [
+        "Hà Nội",
+        "Lào Cai",
+        "Ninh Bình",
+        "Sơn La",
+        "Thái Nguyên",
+        "Thanh Hóa",
+        "Tuyên Quang"
+    ],
+    "Quảng Ngãi": [
+        "Đà Nẵng",
+        "Gia Lai"
+    ],
+    "Quảng Ninh": [
+        "Bắc Ninh",
+        "Hải Phòng",
+        "Lạng Sơn"
+    ],
+    "Quảng Trị": [
+        "Hà Tĩnh",
+        "Huế"
+    ],
+    "Sơn La": [
+        "Điện Biên",
+        "Lai Châu",
+        "Lào Cai",
+        "Phú Thọ",
+        "Thanh Hóa"
+    ],
+    "Tây Ninh": [
+        "Đồng Nai",
+        "Lạng Sơn",
+        "TP. Hồ Chí Minh"
+    ],
+    "Thái Nguyên": [
+        "Bắc Ninh",
+        "Cao Bằng",
+        "Hà Nội",
+        "Lạng Sơn",
+        "Phú Thọ",
+        "Tuyên Quang"
+    ],
+    "Thanh Hóa": [
+        "Nghệ An",
+        "Ninh Bình",
+        "Phú Thọ",
+        "Sơn La"
+    ],
+    "TP. Hồ Chí Minh": [
+        "Đồng Nai",
+        "Lạng Sơn",
+        "Lâm Đồng",
+        "Tây Ninh"
+    ],
+    "Tuyên Quang": [
+        "Cao Bằng",
+        "Lào Cai",
+        "Phú Thọ",
+        "Thái Nguyên"
+    ],
+    "Vĩnh Long": [
+        "Cần Thơ",
+        "Lạng Sơn"
+    ]
+}
