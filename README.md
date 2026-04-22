@@ -8,7 +8,7 @@
 Dự án ứng dụng Trí tuệ Nhân tạo (AI) để giải quyết bài toán **Tô màu bản đồ (Map Coloring)** cho 63 tỉnh thành Việt Nam. Mục tiêu là sử dụng tối đa 4 màu sao cho không có 2 tỉnh nào giáp ranh bị trùng màu, tuân thủ chặt chẽ Định lý 4 màu (Four Color Theorem).
 
 🌍 **Link Demo Trực Tuyến:** 
-[Bấm vào đây để xem dự án trên Streamlit]([https://share.streamlit.io/](https://map-coloring-ery7uo22beomelatmh62um.streamlit.app/))
+[Bấm vào đây để xem dự án trên Streamlit]((https://map-coloring-ery7uo22beomelatmh62um.streamlit.app/))
 ## 🚀 Các tính năng cốt lõi (Core Features)
 1. **Làm sạch Dữ liệu Không gian (GIS Data Processing):**
    - Tự động phát hiện và sửa các lỗi ranh giới bản đồ (overlap/gap) từ file GeoJSON thô bằng thuật toán `buffer` và `intersects` của thư viện GeoPandas.
