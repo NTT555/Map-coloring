@@ -4,7 +4,7 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)
 ![GeoPandas](https://img.shields.io/badge/GeoPandas-0.10+-green.svg)
 
-## 📌 Giới thiệu dự án (Nhóm 06)
+## 📌 Giới thiệu dự án (Nhóm 11)
 Dự án ứng dụng Trí tuệ Nhân tạo (AI) để giải quyết bài toán **Tô màu bản đồ (Map Coloring)** cho 63 tỉnh thành Việt Nam. Mục tiêu là sử dụng tối đa 4 màu sao cho không có 2 tỉnh nào giáp ranh bị trùng màu, tuân thủ chặt chẽ Định lý 4 màu (Four Color Theorem).
 
 🌍 **Link Demo Trực Tuyến:** 
