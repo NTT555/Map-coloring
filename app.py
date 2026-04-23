@@ -68,7 +68,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Hiển thị tiêu đề đã thu nhỏ
-st.markdown("<div class='main-title'>🗺️ ĐỒ ÁN MAP COLORING - NHÓM 06</div>", unsafe_allow_html=True)
+st.markdown("<div class='main-title'>🗺️ ĐỒ ÁN MAP COLORING - NHÓM 11</div>", unsafe_allow_html=True)
 
 # --- CẤU HÌNH DỮ LIỆU ---
 COLOR_DICT = {"#E74C3C": "Đỏ", "#3498DB": "Xanh Dương", "#2ECC71": "Xanh Lá", "#F1C40F": "Vàng"}
