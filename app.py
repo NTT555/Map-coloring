@@ -6,7 +6,7 @@ import json
 from src.csp_core import MapColoringCSP
 
 # Tối ưu hóa không gian hiển thị ngay từ cấu hình trang
-st.set_page_config(page_title="Map Coloring N6", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Map Coloring N11", layout="wide", initial_sidebar_state="collapsed")
 
 # --- CSS TỐI ƯU HÓA KHÔNG GIAN (Compact UI) ---
 st.markdown("""
@@ -68,7 +68,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Hiển thị tiêu đề đã thu nhỏ
-st.markdown("<div class='main-title'>🗺️ ĐỒ ÁN MAP COLORING - NHÓM 11</div>", unsafe_allow_html=True)
+st.markdown("<div class='main-title'>🗺️ ĐỒ ÁN MAP COLORING NHÓM 11</div>", unsafe_allow_html=True)
 
 # --- CẤU HÌNH DỮ LIỆU ---
 COLOR_DICT = {"#E74C3C": "Đỏ", "#3498DB": "Xanh Dương", "#2ECC71": "Xanh Lá", "#F1C40F": "Vàng"}
@@ -91,32 +91,42 @@ def load_graph_data():
 gdf_base = load_map_data()
 full_graph = load_graph_data()
 
-# --- SIDEBAR (Ẩn bớt để tập trung màn hình chính) ---
+# --- SIDEBAR ---
+st.sidebar.markdown("---")
+# Thêm nút chọn để demo sự bá đạo của AC-3 cho thầy cô xem
+use_ac3 = st.sidebar.checkbox("🚀 Kích hoạt thuật toán AC-3", value=True)
+
 if st.sidebar.button("🚀 KHỞI CHẠY AI", use_container_width=True):
-    csp = MapColoringCSP(GRAPH_PATH, selected_colors)
-    csp.history.append({"action": "Bắt đầu", "assignment": {}, "domains": csp.get_domains({})})
-    csp.backtrack(assignment={}, use_mrv=True)
+    # Truyền đúng 3 tham số cho thuật toán lõi mới
+    variables = list(full_graph.keys())
+    csp = MapColoringCSP(variables, full_graph, selected_colors)
+    
+    # Chạy thuật toán solve mới
+    csp.solve(use_ac3=use_ac3)
     st.session_state['history'] = csp.history
 
 # --- GIAO DIỆN CHÍNH (Đã tối ưu diện tích) ---
-if 'history' in st.session_state:
+if 'history' in st.session_state and len(st.session_state['history']) > 0:
     history = st.session_state['history']
     
     # Đưa slider lên cùng một hàng với label để tiết kiệm chỗ
     step = st.slider("🕹️ Timeline:", 0, len(history)-1, len(history)-1)
     
-    curr = history[step]
-    action_text = curr['action']
-    current_assignment = curr['assignment']
+    # Xử lý tương thích với cấu trúc history mới của csp_core.py
+    current_assignment = history[step]
+    
+    # Tự động suy luận hành động (Tỉnh nào vừa được tô màu)
+    # Vì Python giữ nguyên thứ tự thêm vào dict, tỉnh cuối cùng chính là tỉnh vừa thao tác
+    current_province = list(current_assignment.keys())[-1] if current_assignment else "N/A"
+    
+    if current_province != "N/A":
+        color_hex = current_assignment[current_province]
+        action_text = f"Tô màu {COLOR_DICT.get(color_hex, 'Mới')} cho {current_province}"
+    else:
+        action_text = "Đang khởi tạo thuật toán..."
 
     # --- THANH CHI TIẾT (EXPANDER) NHỎ GỌN ---
-    with st.expander("🔍 HÀNH ĐỘNG CHI TIÊT", expanded=True):
-        current_province = "N/A"
-        for prov in gdf_base.index:
-            if prov in action_text:
-                current_province = prov
-                break
-        
+    with st.expander("🔍 HÀNH ĐỘNG CHI TIẾT", expanded=True):
         # Sử dụng 3 cột nhỏ để dàn hàng ngang thông tin trong expander
         c1, c2, c3 = st.columns([1, 1.5, 2])
         with c1:
@@ -124,14 +134,14 @@ if 'history' in st.session_state:
         with c2:
             st.markdown(f"<div class='compact-label'>📝: <span style='font-size: 16px; color: #5D6D7E;'>{action_text}</span></div>", unsafe_allow_html=True)
         with c3:
-            # TỰ ĐỘNG TÍNH MIỀN GIÁ TRỊ 
+            # TỰ ĐỘNG TÍNH MIỀN GIÁ TRỊ (Domain thu hẹp do Forward Checking/AC-3)
             if current_province != "N/A":
                 neighbors = full_graph.get(current_province, [])
-                used_colors = {current_assignment[n] for n in neighbors if n in current_assignment and n != current_province}
+                used_colors = {current_assignment[n] for n in neighbors if n in current_assignment}
                 available_names = [COLOR_DICT[c] for c in selected_colors if c not in used_colors]
                 
                 color_html = "".join([f"<span class='color-tag-small'>{name}</span>" for name in available_names])
-                st.markdown(f"<div class='compact-label'>🎨 Miền giá trị: {color_html if color_html else '❌'}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='compact-label'>🎨 Còn lại: {color_html if color_html else '❌ Hết màu'}</div>", unsafe_allow_html=True)
 
     # --- BẢN ĐỒ CHIẾM DIỆN TÍCH CÒN LẠI ---
     gdf_step = gdf_base.copy()
@@ -147,4 +157,5 @@ if 'history' in st.session_state:
     fig.update_layout(height=580, margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig, use_container_width=True)
 else:
-    st.info("👈 Bấm nút bên trái để bắt đầu.")
+    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
+    st.info("👈 Bấm nút ở thanh bên trái để bắt đầu.")
