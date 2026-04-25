@@ -1,32 +1,36 @@
 import geopandas as gpd
 import json
-import os
 
-def generate_correct_json():
-    print("⏳ Đang đọc file bản đồ GeoJSON...")
-    gdf = gpd.read_file("data/raw/vietnam_provinces.geojson")
+def process_and_build_graph(geojson_path, output_json_path):
+    # 1. Đọc dữ liệu
+    gdf = gpd.read_file(geojson_path)
     
-    print("🧹 Đang chuẩn hóa tên 63 tỉnh thành...")
+    # 2. Làm sạch tên tỉnh
     gdf['Clean_Name'] = gdf['TinhThanh'].str.replace('Thành phố ', '', regex=False).str.replace('Tỉnh ', '', regex=False).str.strip()
+    gdf = gdf.set_index('Clean_Name')
     
-    adj_dict = {}
-    print("⚙️ Đang dùng thuật toán không gian (Buffer + Intersects) để tìm hàng xóm...")
-    for i, row in gdf.iterrows():
-        # BÍ QUYẾT: Nới rộng ranh giới ra 0.005 độ để lấp các khe hở, và dùng intersects để bắt lỗi chồng lấn
-        geom = row.geometry.buffer(0.005)
-        neighbors = gdf[
-            (gdf.geometry.buffer(0.005).intersects(geom)) & 
-            (gdf['Clean_Name'] != row['Clean_Name'])
-        ]['Clean_Name'].tolist()
-        adj_dict[row['Clean_Name']] = neighbors
-        
-    os.makedirs("data/processed", exist_ok=True)
-    output_path = "data/processed/adjacency_graph.json"
+    # 3. CHỮA LÀNH HÌNH HỌC (Fix Invalid Geometries) - BƯỚC QUAN TRỌNG NHẤT
+    gdf['geometry'] = gdf.geometry.buffer(0)
     
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(adj_dict, f, ensure_ascii=False, indent=4)
-        
-    print(f"✅ Đã tạo thành công file {output_path} với ranh giới chính xác tuyệt đối!")
+    # 4. Trích xuất ma trận láng giềng
+    neighbors = {}
+    
+    gdf_buffered = gdf.copy()
+    gdf_buffered['geometry'] = gdf_buffered.geometry.buffer(0.005)
 
-if __name__ == "__main__":
-    generate_correct_json()
+    for prov1, row1 in gdf.iterrows():
+        neighbors[prov1] = []
+        for prov2, row2 in gdf_buffered.iterrows():
+            if prov1 != prov2:
+                # Nếu ranh giới thật của tỉnh 1 chạm vào ranh giới đã mở rộng của tỉnh 2
+                if row1.geometry.intersects(row2.geometry):
+                    neighbors[prov1].append(prov2)
+                    
+    # 5. Lưu ra file JSON
+    with open(output_json_path, 'w', encoding='utf-8') as f:
+        json.dump(neighbors, f, ensure_ascii=False, indent=4)
+        
+    print(f"Đã xử lý xong! Tổng số tỉnh trong Graph: {len(neighbors)}")
+    print("Quảng Ninh có trong Graph không?:", "Quảng Ninh" in neighbors)
+
+process_and_build_graph("data/raw/vietnam_provinces.geojson", "data/processed/adjacency_graph.json")

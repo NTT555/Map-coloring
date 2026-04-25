@@ -79,8 +79,10 @@ GRAPH_PATH = "data/processed/adjacency_graph.json"
 def load_map_data():
     gdf = gpd.read_file("data/raw/vietnam_provinces.geojson")
     name_col = 'TinhThanh'
+    #Làm sạch chuỗi tên tỉnh
     gdf['Clean_Name'] = gdf[name_col].str.replace('Thành phố ', '', regex=False).str.replace('Tỉnh ', '', regex=False).str.strip()
     gdf = gdf.set_index('Clean_Name')
+    gdf['geometry'] = gdf.geometry.buffer(0)
     return gdf
 
 @st.cache_data
@@ -146,14 +148,28 @@ if 'history' in st.session_state and len(st.session_state['history']) > 0:
     # --- BẢN ĐỒ CHIẾM DIỆN TÍCH CÒN LẠI ---
     gdf_step = gdf_base.copy()
     gdf_step['Màu_AI'] = gdf_step.index.map(current_assignment).fillna("#EBEDEF")
-    
+
+    gdf_display = gdf_step.reset_index()
+    # 1. Định nghĩa bản đồ
     fig = px.choropleth_mapbox(
-        gdf_step, geojson=gdf_step.geometry.__geo_interface__, locations=gdf_step.index,
-        color="Màu_AI", color_discrete_map="identity",
-        mapbox_style="carto-positron", zoom=5.2, center={"lat": 16.2, "lon": 106.0},
+        gdf_display, 
+        geojson=gdf_display.geometry.__geo_interface__, 
+        locations=gdf_display.index, 
+        color="Màu_AI", 
+        color_discrete_map="identity",
+        hover_name="Clean_Name", 
+        hover_data={
+            "Màu_AI": False,    
+        },
+        mapbox_style="carto-positron", 
+        zoom=5.2, 
+        center={"lat": 16.2, "lon": 106.0},
         opacity=0.9
     )
-    # Giảm height xuống khoảng 550-600 để vừa vặn một màn hình laptop
+
+    fig.update_traces(hovertemplate="<b style='font-size: 16px;'>%{hovertext}</b><extra></extra>")
+    
+    # 2. Cấu hình khung nhìn và HIỂN THỊ (Cần có 2 dòng này)
     fig.update_layout(height=580, margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig, use_container_width=True)
 else:
