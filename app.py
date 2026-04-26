@@ -5,10 +5,9 @@ import pandas as pd
 import json
 from src.csp_core import MapColoringCSP
 
-# Tối ưu hóa không gian hiển thị ngay từ cấu hình trang
 st.set_page_config(page_title="Map Coloring N11", layout="wide", initial_sidebar_state="collapsed")
 
-# --- CSS TỐI ƯU HÓA KHÔNG GIAN (Compact UI) ---
+# --- CSS TỐI ƯU HÓA KHÔNG GIAN  ---
 st.markdown("""
     <style>
     /* Loại bỏ khoảng trống thừa ở đầu trang của Streamlit */
@@ -67,7 +66,6 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Hiển thị tiêu đề đã thu nhỏ
 st.markdown("<div class='main-title'>🗺️ ĐỒ ÁN MAP COLORING NHÓM 11</div>", unsafe_allow_html=True)
 
 # --- CẤU HÌNH DỮ LIỆU ---
@@ -108,7 +106,7 @@ if st.sidebar.button("🚀 KHỞI CHẠY AI", use_container_width=True):
     csp.solve(use_ac3=use_ac3)
     st.session_state['history'] = csp.history
 
-# --- GIAO DIỆN CHÍNH (Đã tối ưu diện tích) ---
+# --- GIAO DIỆN CHÍNH ---
 if 'history' in st.session_state and len(st.session_state['history']) > 0:
     history = st.session_state['history']
     
@@ -128,7 +126,7 @@ if 'history' in st.session_state and len(st.session_state['history']) > 0:
     else:
         action_text = "Đang khởi tạo thuật toán..."
 
-    # --- THANH CHI TIẾT (EXPANDER) NHỎ GỌN ---
+    # --- THANH CHI TIẾT (EXPANDER) ---
     with st.expander("🔍 HÀNH ĐỘNG CHI TIẾT", expanded=True):
         # Sử dụng 3 cột nhỏ để dàn hàng ngang thông tin trong expander
         c1, c2, c3 = st.columns([1, 1.5, 2])
@@ -137,7 +135,7 @@ if 'history' in st.session_state and len(st.session_state['history']) > 0:
         with c2:
             st.markdown(f"<div class='compact-label'>📝: <span style='font-size: 16px; color: #5D6D7E;'>{action_text}</span></div>", unsafe_allow_html=True)
         with c3:
-            # TỰ ĐỘNG TÍNH MIỀN GIÁ TRỊ (Domain thu hẹp do Forward Checking/AC-3)
+            # TỰ ĐỘNG TÍNH MIỀN GIÁ TRỊ
             if current_province != "N/A":
                 neighbors = full_graph.get(current_province, [])
                 used_colors = {current_assignment[n] for n in neighbors if n in current_assignment}
@@ -170,7 +168,7 @@ if 'history' in st.session_state and len(st.session_state['history']) > 0:
 
     fig.update_traces(hovertemplate="<b style='font-size: 16px;'>%{hovertext}</b><extra></extra>")
     
-    # 2. Cấu hình khung nhìn và HIỂN THỊ (Cần có 2 dòng này)
+    # 2. Cấu hình khung nhìn và HIỂN THỊ 
     fig.update_layout(height=580, margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig, use_container_width=True)
 else:
