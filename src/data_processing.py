@@ -7,9 +7,12 @@ def process_and_build_graph(geojson_path, output_json_path):
     
     # 2. Làm sạch tên tỉnh
     gdf['Clean_Name'] = gdf['TinhThanh'].str.replace('Thành phố ', '', regex=False).str.replace('Tỉnh ', '', regex=False).str.strip()
-    gdf = gdf.set_index('Clean_Name')
     
-    # 3. CHỮA LÀNH HÌNH HỌC (Fix Invalid Geometries) - BƯỚC QUAN TRỌNG NHẤT
+    gdf.loc[(gdf['Clean_Name'] == 'Lạng Sơn') & (gdf.geometry.centroid.y < 12), 'Clean_Name'] = 'Kiên Giang'
+
+    gdf = gdf.set_index('Clean_Name')
+
+    # 3. Fix Invalid Geometries
     gdf['geometry'] = gdf.geometry.buffer(0)
     
     # 4. Trích xuất ma trận láng giềng
@@ -31,6 +34,5 @@ def process_and_build_graph(geojson_path, output_json_path):
         json.dump(neighbors, f, ensure_ascii=False, indent=4)
         
     print(f"Đã xử lý xong! Tổng số tỉnh trong Graph: {len(neighbors)}")
-    print("Quảng Ninh có trong Graph không?:", "Quảng Ninh" in neighbors)
 
 process_and_build_graph("data/raw/vietnam_provinces.geojson", "data/processed/adjacency_graph.json")

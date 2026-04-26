@@ -81,6 +81,7 @@ def load_map_data():
     name_col = 'TinhThanh'
     #Làm sạch chuỗi tên tỉnh
     gdf['Clean_Name'] = gdf[name_col].str.replace('Thành phố ', '', regex=False).str.replace('Tỉnh ', '', regex=False).str.strip()
+    gdf.loc[(gdf['Clean_Name'] == 'Lạng Sơn') & (gdf.geometry.centroid.y < 12), 'Clean_Name'] = 'Kiên Giang'
     gdf = gdf.set_index('Clean_Name')
     gdf['geometry'] = gdf.geometry.buffer(0)
     return gdf
